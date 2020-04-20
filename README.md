@@ -2,7 +2,7 @@
 Training project for [Udacity.com]
 
 ### Install, Start & Test
-Install [NodeJS] and run the following commands in consle
+Install [NodeJS] and run the following commands in consle.
 ```
 // Installing npm modules.
 npm install
@@ -28,9 +28,9 @@ npm test
 │       └── index.html             // HTML file of the application.
 ├── server.js                      // Express server functionality for application development.
 ├── .eslintrc.js                   // Сonfiguration file for Eslint.
-├── .gitignore                     // file to exclude files and folders from the repository.
-├── package-lock.json              // npm configuration file.
-└── package.json                   // npm configuration file.
+├── .gitignore                     // File to exclude files and folders from the repository.
+├── package-lock.json              // Npm configuration file.
+└── package.json                   // Npm configuration file.
 ```
 
 ### Copyright

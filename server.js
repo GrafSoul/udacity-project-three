@@ -1,22 +1,51 @@
-// Setup empty JS object to act as endpoint for all routes
-// Express to run server and routes
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+/**
+* @description Connecting Express, Middleware and other dependences.
+*/
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const opn = require('opn');
 
-// Start up an instance of app
+/**
+* @description Start up an instance of app.
+*/
+const app = express();
 
-/* Dependencies */
 /* Middleware*/
+/**
+* @description Here we are configuring express to use body-parser as middle-ware.
+*/
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-//Here we are configuring express to use body-parser as middle-ware.
-// Cors for cross origin allowance
+/**
+* @description Connecting Cors for cross origin allowance.
+*/
+app.use(cors());
 
-// Initialize the main project folder
+/**
+* @description Initialize the main project folder.
+*/
+app.use(express.static('website'));
 
-// Spin up the server
-// Callback to debug
+/**
+* @description Setup Server.
+*/
+const port = 8000;
+const server = app.listen(port, listening);
 
-// Initialize all route with a callback function
+function listening() {
+    console.log('*************************************');
+    console.log(' Server started Successfully!');
+    console.log(` Running on - http://localhost:${port}'`);
+    console.log('=====================================');
+    console.log(' To stop the server, Press - Ctrl+C');
+    console.log('*************************************');
+}
 
-// Callback function to complete GET '/all'
-
-// Post Route
-  
+/**
+* @description Opening the app in the browser.
+*/
+server ? opn(`http://localhost:${port}`) : null ;
