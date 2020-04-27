@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
+'use strict';
 /**
 * @description Connecting Express, Middleware and other dependences.
 */
@@ -7,6 +8,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const opn = require('opn');
+
+/**
+* @description Setup empty JS object to act as endpoint for all routes.
+*/
+let projectData = [];
 
 /**
 * @description Start up an instance of app.
@@ -44,6 +50,28 @@ function listening() {
     console.log(' To stop the server, Press - Ctrl+C');
     console.log('*************************************');
 }
+
+/**
+* @description Send projectData.
+*/
+app.get('/get', function (request, response) {
+    response.send(projectData);
+});
+
+/**
+* @description Add a new entry to projectData.
+*/
+app.post('/set', function (request, response) {
+    projectData = request.body;
+});
+
+/**
+* @description Add a new variant projectData.
+*/
+app.post('/update', function (request, response) {
+    projectData = [];
+    projectData = request.body;
+});
 
 /**
 * @description Opening the app in the browser.

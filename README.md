@@ -1,6 +1,9 @@
 # Project Three - Weather Journal App (JavaScript).
 Training project for [Udacity.com]
 
+### Project Description
+The application for keeping a diary of feelings when the weather changes.
+
 ### Install, Start & Test
 Install [NodeJS] and run the following commands in consle.
 ```
