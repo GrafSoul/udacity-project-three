@@ -1,35 +1,66 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Weather Journal</title>
-<link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Weather Journal App</title>
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/apple-touch-icon-144x144.png" />
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="images/apple-touch-icon-152x152.png" />
+        <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+        <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="css/style.css">
+    </head>
  <body>
-<div id = "app">
-    <div class ="holder headline">
-        Weather Journal App
-    </div>
-    <div class ="holder zip">
-        <label for="zip">Enter Zipcode here</label>
-        <input type="text" id="zip" placeholder="enter zip code here">
-    </div>
-    <div class ="holder feel">
-        <label for="feelings">How are you feeling today?</label>
-        <textarea class= "myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-        <button id="generate" type = "submit"> Generate </button>
-    </div>
-    <div class ="holder entry">
-        <div class = "title">Most Recent Entry</div>
-     <div id = "entryHolder">
-        <div id = "date"></div> 
-     <div id = "temp"></div>
-     <div id = "content"></div>
-    </div>
-    </div>
-    </div>
-<script src="app.js" type="text/javascript"></script>
 
+    <div id = "app">
+
+        <div class ="holder headline">
+            <h1><strong>[WjA]</strong> Weather Journal App</h1>
+            <span class='toggle-code'>code examples</span>
+        </div>
+        <div class ="holder codes">
+
+            <p class="code-city"><strong>Zip Сity Сodes for Example</strong><br> 
+                Los Angeles: <span class="code">5368361</span> New York: <span class="code">5128638</span> Dubai: <span class="code">292223</span> Tashkent: <span class="code">1512569</span>
+            </p>
+        </div>
+
+        <div class ="holder zip"> 
+            <p class="error error-zip">You have not entered or entered the zip code incorrectly</p>   
+            <input type="number" autofocus id="zip" placeholder="Enter zip code here" value=""  pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;">
+        </div>
+
+        <div class ="holder feel">
+            <p class="error error-feelings">You did not describe your feeling</p>   
+            <textarea class= "myInput" id="feelings" placeholder="Enter your feelings here"></textarea>
+            <button id="generate" type="submit">Click Here for Add New Entry</button>
+        </div>
+
+        <div class="holder entry">
+            <div id="entryHolder">
+                <div class="entry-empty">There's nothing yet. Here will be your new entries</div>
+            </div>
+
+        </div>
+
+        <div class ="holder footer"> 
+            <p class="copyright">© Weather Journal App | 2020 | Created by Dmitriy Zatulovskiy | Web API used - <a href="https://openweathermap.org/" target="_blank">OpenWeather</a></p>   
+        </div>
+    </div>
+
+    <div class="modal">
+        <div class="modal-content">
+            <p class="question">Are you sure you want to delete the entry?</p>
+            <div class="btn-group">
+                <span class="btn btn-delete">Delete</span>
+                <span class="btn btn-cancel">Сancel</span>
+            </div>            
+        </div>
+        <div class="modal-curtain"></div>     
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>

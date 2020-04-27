@@ -34,8 +34,10 @@ npm test
 ```
 
 ### Copyright
-The project is based on the [Udacity repository].
+The project is based on the [Udacity repository].  
+The project uses [OpenWeather] Web API.
 
 [Udacity.com]: https://www.udcity.com/
 [Udacity repository]: https://github.com/udacity/fend/tree/refresh-2019/
 [NodeJS]: https://nodejs.org/
+[OpenWeather]: https://openweathermap.org/
