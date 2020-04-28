@@ -12,16 +12,10 @@ npm install
 
 // Starting local Server and App.
 npm start 
-
-// Start testing the project using Jasmine.
-npm test
 ```
 
 ### Project structure
 ```
-├── /spec/                         // Jasmine file folder.
-│       └── support/
-│             └── jasmine.json     // Jasmine configuration file.
 ├── /website/                      // Application file folder.
 │       ├── /css/                  // CSS file folder.
 │       │     └── style.css        // CSS styles file.

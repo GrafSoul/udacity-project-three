@@ -20,6 +20,21 @@ const emptyEntry = document.querySelector('.entry-empty');
 const emptyOneEntry = document.querySelector('.entry-one-empty');
 const lastEntry = document.querySelector('.last-entry');
 
+const errorZip = document.querySelector('.error-zip');
+const errorFeelings = document.querySelector('.error-feelings');
+
+const holderCode = document.querySelector('.holder.codes');
+const toggleCode = document.querySelector('.toggle-code');
+const codeNum = document.querySelectorAll('.code');
+let isToggleCode = true;
+
+const modalWindow = document.querySelector('.modal');
+const modalCurtain = document.querySelector('.modal-curtain');
+const modalBtnDelete = document.querySelector('.btn-delete');
+const modalBtnClose = document.querySelector('.btn-cancel');
+let isModal = false;
+let isDeleteId = 0;
+
 const localData = JSON.parse(localStorage.getItem('weather'));
 let dataEntries = [];
 
@@ -97,6 +112,7 @@ const getProjectData = async () => {
     toggleOneEmptyEntry();
     toggleEmptyEntry();
     counterEntriesList();
+    allCodeExample();
 };
 
 /**
@@ -217,6 +233,7 @@ const generateEntry = (entry) => {
     `;
     itemEntry.id = `entry_${entry.id}`;
     itemEntry.innerHTML = entryElements;
+    addDelete(itemEntry);
     entriesList.prepend(itemEntry);
 };
 
@@ -245,6 +262,67 @@ const toggleOneEmptyEntry = () => {
 };
 
 /**
+* @description Checking that the text input fields are filled in correctly.
+* @param {string} valueZip - Zip input field value.
+* @param {string} valueFeelings -  Feelings input field value.
+* @param {object} dataWeather - Object containing weather data.
+* @returns {boolean} - Return true or folse if the fields are filled in correctly.
+*/
+const errorFields = (valueZip, valueFeelings, dataWeather) => {
+
+    if(valueZip === '' && valueFeelings === '') {
+        errorFeelings.style.display = 'block';
+        errorZip.style.display = 'block';
+        return false;
+    }
+
+    if(valueZip === '' || dataWeather.cod === '404') {
+        errorZip.style.display = 'block';
+        return false;
+    }
+
+    if(valueFeelings === '') {
+        errorFeelings.style.display = 'block';
+        return false;        
+    }
+    return true;
+};
+
+/**
+* @description Function to delete the selected entry.
+* @param {number} id - id deleted entry.
+*/
+const deleteEntry = (id) => {
+
+    // Select the entry to be deleted and delete it.
+    let entry = document.getElementById(`entry_${id}`);
+    entry.parentNode.removeChild(entry);
+
+    // Delete data entry from dataEntries.
+    dataEntries = dataEntries.filter(item => {
+        return item.id !== +id;
+    });       
+
+    // Updating data on the server.
+    setProjectData('/update', dataEntries.reverse());
+
+    // Сlear localStorage and add new data.
+    localStorage.setItem('weather', JSON.stringify([]));
+    localStorage.setItem('weather', JSON.stringify(dataEntries.reverse()));
+
+    // Check if a stub is needed for entries.
+    toggleEmptyEntry();
+    toggleOneEmptyEntry();
+
+    // Checking the number of entries.
+    counterEntriesList();
+
+    // Closing the modal window.
+    modalWindow.classList.remove('active');
+    isModal = false;
+};
+
+/**
 * @description Function for counting the number of entries.
 */
 const counterEntriesList = () => {
@@ -260,6 +338,142 @@ const counterEntriesList = () => {
  * Begin Event listener
  * 
 */
+
+/**
+* @description Function called by event listener.
+*/
+const newEntry = async () => { 
+    let valueZip = zip.value.split(' ').join('');
+    let valueFeelings = feelings.value;
+
+    let timeInMs = Date.now();
+
+    let data= await getCurrentWeather(baseURL, valueZip, apiKey);
+    let newData = {id: timeInMs, date: `${time} | ${date}`, zip: valueZip, feelings: valueFeelings, data};
+
+    let isError = errorFields(valueZip, valueFeelings, data);
+
+    if(isError) {
+
+        // Adding new data to list entries on the page.
+        generateEntry(newData);
+
+        // Adding new data to new entry on the page.
+        generateOneEntry(newData);
+   
+        // Adding new data a global variable.
+        dataEntries.unshift(newData);
+
+        // Check if a stub is needed for entries.
+        toggleOneEmptyEntry();
+        toggleEmptyEntry();
+
+        // Checking the number of entries.
+        counterEntriesList();
+
+        // Sending updated data to the server.
+        setProjectData('/set', dataEntries);
+
+        // Adding new data to LocalStorage.
+        localStorage.setItem('weather', JSON.stringify(dataEntries));
+
+        // Clearing the input fields.
+        zip.value = null;
+        feelings.value = null;
+    }
+};
+
+/**
+* @description Event listener for the button, click add new elements to the page.
+*/
+document.getElementById('generate').addEventListener('click', newEntry);
+
+/**
+* @description Event listener for zip city codes.
+*/
+toggleCode.addEventListener('click', () => {
+    if(isToggleCode) {
+        toggleCode.innerText = 'hide';
+        holderCode.classList.add('active');
+        isToggleCode = false;
+    } else {
+        toggleCode.innerText = 'code examples';
+        holderCode.classList.remove('active');
+        isToggleCode = true;
+    }
+});
+
+/**
+* @description Event listener for buttons - zip city codes.
+*/
+const allCodeExample = () => {
+    codeNum.forEach(item => {
+        item.addEventListener('click', (e) => {
+            zip.value = '';
+            zip.value = e.target.textContent;
+        });
+    });
+};
+
+/**
+* @description Add Event listener for delete button for entry.
+* @param {Node} newData - new entry Node element.
+*/
+const addDelete = (newData) => {
+    let deleteButton = newData.querySelector('.delete-entry');
+
+    deleteButton.addEventListener('click', (e) => {        
+        isDeleteId = e.target.id;
+    
+        if(isModal) {
+            modalWindow.classList.remove('active');
+            isModal = false;
+        } else {
+            modalWindow.classList.add('active');
+            isModal = true;
+        }
+    });
+};
+
+/**
+* @description Add Event listeners onkeyup to input zip to enter numbers only..
+*/
+zip.addEventListener('keyup', () => {
+    zip.value = zip.value.replace( /\D/g, '');
+});
+
+/**
+* @description Add Event listeners for close Modal window.
+*/
+modalCurtain.addEventListener('click', () => {
+    modalWindow.classList.remove('active');
+    isModal = false;
+});
+
+modalBtnClose.addEventListener('click', () => {
+    modalWindow.classList.remove('active');
+    isModal = false;
+});
+
+/**
+* @description Add Event listeners for delete entry.
+*/
+modalBtnDelete.addEventListener('click', () => {
+    deleteEntry(isDeleteId.substr(4));
+});
+/**
+* @description Event listener for zip input field error informer .
+*/
+errorZip.addEventListener('mouseover', () => {
+    errorZip.style.display = 'none';
+}) ;
+
+/**
+* @description Event listener for feelings input field error informer .
+*/
+errorFeelings.addEventListener('mouseover', () => {
+    errorFeelings.style.display = 'none';
+}) ;
 
 /**
 * @description Function for getting data in load page.
