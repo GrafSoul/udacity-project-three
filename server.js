@@ -10,7 +10,7 @@ const cors = require('cors');
 const opn = require('opn');
 
 /**
-* @description Setup empty JS object to act as endpoint for all routes.
+* @description Setup empty JS array to act as endpoint for all routes.
 */
 let projectData = [];
 

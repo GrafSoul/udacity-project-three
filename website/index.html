@@ -29,7 +29,7 @@
 
         <div class ="holder zip"> 
             <p class="error error-zip">You have not entered or entered the zip code incorrectly</p>   
-            <input type="number" autofocus id="zip" placeholder="Enter zip code here" value=""  pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==10) return false;">
+            <input type="text" autofocus id="zip" placeholder="Enter zip code here" maxlength="10">
         </div>
 
         <div class ="holder feel">
@@ -39,14 +39,28 @@
         </div>
 
         <div class="holder entry">
+            <h2>Last Entry</h2>
             <div id="entryHolder">
+                <div class="last-entry">
+                    <div class="item-info">
+                        <div id="date" class="item-date last-date"></div>
+                        <p id="content" class="item-feeling"></p>
+                    </div>
+                    <div id="temp" class="item-weather"></div>
+                </div>
+                <div class="entry-one-empty">There's nothing yet. Here will be your new entry</div>
+            </div>
+        </div>
+
+        <div class="holder entry">
+            <h2>List of Entries (<span id="count-list"></span>)</h2>
+            <div id="entriesList">
                 <div class="entry-empty">There's nothing yet. Here will be your new entries</div>
             </div>
-
         </div>
 
         <div class ="holder footer"> 
-            <p class="copyright">© Weather Journal App | 2020 | Created by Dmitriy Zatulovskiy | Web API used - <a href="https://openweathermap.org/" target="_blank">OpenWeather</a></p>   
+            <p class="copyright">© Weather Journal App | 2020 | Created by Dmitriy Zatulovskiy | Web API used - <a href="https://openweathermap.org/" target="_blank">OpenWeather</a></p>
         </div>
     </div>
 
@@ -56,11 +70,12 @@
             <div class="btn-group">
                 <span class="btn btn-delete">Delete</span>
                 <span class="btn btn-cancel">Сancel</span>
-            </div>            
+            </div>
         </div>
-        <div class="modal-curtain"></div>     
+        <div class="modal-curtain"></div>
     </div>
 
+    <!-- JavaScript file connection -->
     <script src="app.js"></script>
 </body>
 </html>
