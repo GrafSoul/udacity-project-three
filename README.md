@@ -10,7 +10,7 @@ Main features of the app:
 - The app displays all entries as a list.
 - You can delete unnecessary entries.
 
-### Install, Start & Test
+### Clone, Install & Start
 Install [NodeJS] and run the following commands in consle.
 ```
 // Clone the repository.
@@ -43,6 +43,8 @@ npm start
 ```
 
 ### Copyright
+The contents of the repository can be freely used and distributed. 😀
+
 The project is based on the [Udacity repository].  
 The project uses [OpenWeather] Web API.
 
