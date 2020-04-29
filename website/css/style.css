@@ -85,31 +85,31 @@ input::placeholder { /* Firefox, Chrome, Opera */
     color: rgba(255, 255, 255, 0.5);
 }
 
-input:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
+input:-ms-input-placeholder { /* Internet Explorer 10-11 */
     font-size: .8em;
     text-align: center;
     color: rgba(255, 255, 255, 0.5)
 }
 
-input::-ms-input-placeholder { /* Microsoft Edge */ 
+input::-ms-input-placeholder { /* Microsoft Edge */
     font-size: .8em;
     text-align: center;
     color: rgba(255, 255, 255, 0.5)
 }
 
-textarea::placeholder { /* Firefox, Chrome, Opera */ 
+textarea::placeholder { /* Firefox, Chrome, Opera */
     font-size: 1.1em;
     text-align: center;
     color: rgba(255, 255, 255, 0.5);
 }
 
-textarea:-ms-input-placeholder { /* Internet Explorer 10-11 */ 
+textarea:-ms-input-placeholder { /* Internet Explorer 10-11 */
     font-size: 1.1em;
     text-align: center;
     color: rgba(255, 255, 255, 0.5)
 }
 
-textarea::-ms-input-placeholder { /* Microsoft Edge */ 
+textarea::-ms-input-placeholder { /* Microsoft Edge */
     font-size: 1.1em;
     text-align: center;
     color: rgba(255, 255, 255, 0.5)
@@ -168,12 +168,16 @@ body {
     border-bottom: none;
 }
 
-#app .holder.codes {
+#app .holder.codes,
+#app .holder.zip,
+#app .holder.city {
     display: none;
 }
 
-#app .holder.codes.active {
-    display: block;
+#app .holder.codes.active,
+#app .holder.zip.active,
+#app .holder.city.active {
+    display: block;    
 }
 
 #app .holder.entry h2 {
@@ -217,10 +221,32 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.6s ease;
 }
 
 #app .toggle-code:hover {
+    color: rgb(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+#app .toggle-city {
+    padding: 2px 5px;
+    display: block;
+    position: absolute;
+    bottom: -30px;
+    left: 8px;
+    z-index: 50;
+    font-size: 0.7em;
+    line-height: 1.1em;
+    font-weight: 300;
+    color: rgb(255, 255, 255, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.6s ease;
+}
+
+#app .toggle-city:hover {
     color: rgb(255, 255, 255, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.8);
 }
@@ -246,7 +272,8 @@ body {
     border-radius: 6px;
     background: rgba(59, 74, 107, 0.4);
     border: 1px solid rgba(154,92,134,1);
-    box-shadow: 2px 2px 2px rgba(0,0,0,0.25);
+    box-shadow: 3px 3px 3px rgba(0,0,0,0.25);
+    transition: all 0.3s ease;
 }
 
 #app .code-city .code:hover {
@@ -263,7 +290,21 @@ body {
     display: block;
     width: 100%;
     max-width: 500px;
-    font-size: 1.6em; 
+    font-size: 1.6em;
+    font-weight: 400;
+    margin: auto;
+    padding: 16px 20px 20px;
+    color: rgb(255, 255, 255);
+    text-align: center;
+    background-color: transparent;
+    border: none;
+}
+
+#app .city input {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    font-size: 1.6em;
     font-weight: 400;
     margin: auto;
     padding: 16px 20px 20px;
@@ -329,7 +370,7 @@ body {
 #entryHolder {
     margin: 0 30px 30px;
     max-width: 700px;
-    max-height: 320px;
+    max-height: 300px;
     overflow-x: auto;
     border: 1px solid rgba(154,92,134,1);
     -webkit-box-shadow: 3px 4px 10px 3px rgba(0,0,0,0.2);
@@ -519,6 +560,10 @@ body {
 }
 
 .error.error-zip {
+    display: none;
+}
+
+.error.error-city {
     display: none;
 } 
 

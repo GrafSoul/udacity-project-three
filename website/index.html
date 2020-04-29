@@ -19,17 +19,23 @@
         <div class ="holder headline">
             <h1><strong>[WjA]</strong> Weather Journal App</h1>
             <span class='toggle-code'>code examples</span>
+            <span class='toggle-city'>enter name</span>
         </div>
-        <div class ="holder codes">
 
+        <div class ="holder codes">
             <p class="code-city"><strong>Zip Сity Сodes for Example</strong><br> 
                 Los Angeles: <span class="code">5368361</span> New York: <span class="code">5128638</span> Dubai: <span class="code">292223</span> Tashkent: <span class="code">1512569</span>
             </p>
         </div>
 
-        <div class ="holder zip"> 
+        <div class ="holder zip active"> 
             <p class="error error-zip">You have not entered or entered the zip code incorrectly</p>   
             <input type="text" autofocus id="zip" placeholder="Enter zip code here" maxlength="10">
+        </div>
+
+        <div class ="holder city"> 
+            <p class="error error-city">You have not entered or entered the name city incorrectly</p>   
+            <input type="text" autofocus id="city" placeholder="Enter the name of the city" maxlength="30">
         </div>
 
         <div class ="holder feel">

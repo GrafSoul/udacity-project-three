@@ -4,9 +4,21 @@ Training project for [Udacity.com]
 ### Project Description
 The application for keeping a diary of feelings when the weather changes.
 
+Main features of the app:
+- You can select the input field (city code or name).
+- The app displays the last entry.
+- The app displays all entries as a list.
+- You can delete unnecessary entries.
+
 ### Install, Start & Test
 Install [NodeJS] and run the following commands in consle.
 ```
+// Clone the repository.
+git clone https://github.com/GrafSoul/udacity-project-three.git
+
+// Go to the project folder.
+cd udacity-project-three
+
 // Installing npm modules.
 npm install
 

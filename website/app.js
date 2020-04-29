@@ -4,9 +4,11 @@
  * 
 */
 const apiKey = '903348d02d96029952e7e627ef03dcde';
-const baseURL = 'http://api.openweathermap.org/data/2.5/weather?id=';
+const baseURLZip = 'http://api.openweathermap.org/data/2.5/weather?id=';
+const baseURLCity = 'http://api.openweathermap.org/data/2.5/weather?q=';
 
 const zip = document.getElementById('zip');
+const city = document.getElementById('city');
 const feelings = document.getElementById('feelings');
 
 const entriesList = document.getElementById('entriesList');
@@ -21,10 +23,16 @@ const emptyOneEntry = document.querySelector('.entry-one-empty');
 const lastEntry = document.querySelector('.last-entry');
 
 const errorZip = document.querySelector('.error-zip');
+const errorCity = document.querySelector('.error-city');
 const errorFeelings = document.querySelector('.error-feelings');
 
 const holderCode = document.querySelector('.holder.codes');
+const holderCity = document.querySelector('.holder.city');
+const holderZip = document.querySelector('.holder.zip');
 const toggleCode = document.querySelector('.toggle-code');
+const toggleCity = document.querySelector('.toggle-city');
+let currentField = 'zip';
+
 const codeNum = document.querySelectorAll('.code');
 let isToggleCode = true;
 
@@ -96,7 +104,7 @@ const getProjectData = async () => {
             generateEntry(entry);
             generateOneEntry(entry);
         });
-        setProjectData('/set', dataEntries.reverse());           
+        setProjectData('/set', dataEntries.reverse());
     } else {
         try {
             dataEntries = await res.json();
@@ -146,7 +154,7 @@ const setProjectData = async (url = '', data = {})=>{
 * @param {string} key - API secret key.
 * @returns {object} - object with data from the API server.
 */
-const getCurrentWeather = async (baseURL, zip, key)=>{
+const getCurrentWeather = async (baseURL, zip, key)=>{    
     const res = await fetch(baseURL + zip + '&appid='+ key);
     try {  
         let data = await res.json();
@@ -169,7 +177,7 @@ const generateOneEntry = (entry) => {
     let tempFahrenheit = kelvinToFahrenheit(entry.data.main.temp);
 
     let entryTempElement = `
-        <div class="item-city">                
+        <div class="item-city">
             <span class="city">${entry.data.name}, ${entry.data.sys.country}</span> |
             <span class="temperature">${tempFahrenheit}</span> °F /${' '}
             <span class="temperature">${tempCelsius}</span> °C<br>
@@ -211,7 +219,7 @@ const generateEntry = (entry) => {
             <p class="item-feeling">${entry.feelings}</p>
         </div>
         <div class="item-weather">
-            <div class="item-city">                
+            <div class="item-city">
                 <span class="city">${entry.data.name}, ${entry.data.sys.country}</span> |
                 <span class="temperature">${tempFahrenheit}</span> °F /${' '}
                 <span class="temperature">${tempCelsius}</span> °C<br>
@@ -268,22 +276,26 @@ const toggleOneEmptyEntry = () => {
 * @param {object} dataWeather - Object containing weather data.
 * @returns {boolean} - Return true or folse if the fields are filled in correctly.
 */
-const errorFields = (valueZip, valueFeelings, dataWeather) => {
+const errorFields = (valueZipCity, valueFeelings, dataWeather) => {
 
-    if(valueZip === '' && valueFeelings === '') {
+    if(valueZipCity === '' && valueFeelings === '') {
         errorFeelings.style.display = 'block';
-        errorZip.style.display = 'block';
+        currentField === 'zip' ? 
+            errorZip.style.display = 'block' :
+            errorCity.style.display = 'block';
         return false;
     }
 
-    if(valueZip === '' || dataWeather.cod === '404') {
-        errorZip.style.display = 'block';
+    if(valueZipCity === '' || dataWeather.cod === '404') {
+        currentField === 'zip' ?
+            errorZip.style.display = 'block' :
+            errorCity.style.display = 'block';
         return false;
     }
 
     if(valueFeelings === '') {
         errorFeelings.style.display = 'block';
-        return false;        
+        return false;
     }
     return true;
 };
@@ -343,15 +355,17 @@ const counterEntriesList = () => {
 * @description Function called by event listener.
 */
 const newEntry = async () => { 
-    let valueZip = zip.value.split(' ').join('');
+
+    let value = currentField === 'zip' ? zip.value.split(' ').join('') : city.value;
+    let currentURL = currentField === 'zip' ? baseURLZip : baseURLCity;
     let valueFeelings = feelings.value;
 
     let timeInMs = Date.now();
 
-    let data= await getCurrentWeather(baseURL, valueZip, apiKey);
-    let newData = {id: timeInMs, date: `${time} | ${date}`, zip: valueZip, feelings: valueFeelings, data};
+    let data= await getCurrentWeather(currentURL, value, apiKey);
+    let newData = {id: timeInMs, date: `${time} | ${date}`, zip: value, feelings: valueFeelings, data};
 
-    let isError = errorFields(valueZip, valueFeelings, data);
+    let isError = errorFields(value, valueFeelings, data);
 
     if(isError) {
 
@@ -379,6 +393,7 @@ const newEntry = async () => {
 
         // Clearing the input fields.
         zip.value = null;
+        city.value = null;
         feelings.value = null;
     }
 };
@@ -400,6 +415,29 @@ toggleCode.addEventListener('click', () => {
         toggleCode.innerText = 'code examples';
         holderCode.classList.remove('active');
         isToggleCode = true;
+    }
+});
+
+/**
+* @description Event listener for switching input fields of code and city name.
+*/
+toggleCity.addEventListener('click', () => {
+    if(currentField === 'city') {
+        zip.value = '';
+        toggleCode.style.display = 'block';
+        toggleCity.innerText = 'enter name';
+        holderCity.classList.remove('active');
+        holderZip.classList.add('active');
+        currentField = 'zip';
+    } else {
+        city.value = '';
+        toggleCode.style.display = 'none';
+        toggleCity.innerText = 'enter zip';
+        holderCity.classList.add('active');
+        toggleCode.innerText = 'code examples';
+        holderCode.classList.remove('active');
+        holderZip.classList.remove('active');
+        currentField = 'city';
     }
 });
 
@@ -436,7 +474,7 @@ const addDelete = (newData) => {
 };
 
 /**
-* @description Add Event listeners onkeyup to input zip to enter numbers only..
+* @description Add Event listeners onkeyup to input zip to enter numbers only.
 */
 zip.addEventListener('keyup', () => {
     zip.value = zip.value.replace( /\D/g, '');
@@ -461,19 +499,28 @@ modalBtnClose.addEventListener('click', () => {
 modalBtnDelete.addEventListener('click', () => {
     deleteEntry(isDeleteId.substr(4));
 });
+
 /**
-* @description Event listener for zip input field error informer .
+* @description Event listener for zip input field error informer.
 */
 errorZip.addEventListener('mouseover', () => {
     errorZip.style.display = 'none';
-}) ;
+});
 
 /**
-* @description Event listener for feelings input field error informer .
+* @description Event listener for zip input field error informer.
+*/
+errorCity.addEventListener('mouseover', () => {
+    errorCity.style.display = 'none';
+}) ;
+
+
+/**
+* @description Event listener for feelings input field error informer.
 */
 errorFeelings.addEventListener('mouseover', () => {
     errorFeelings.style.display = 'none';
-}) ;
+});
 
 /**
 * @description Function for getting data in load page.
