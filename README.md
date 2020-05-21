@@ -1,5 +1,7 @@
 # Project Three - Weather Journal App (JavaScript).
-Training project for [Udacity.com]
+Training project for [Udacity.com]. Certificate Nanodegree Program - [Front End Web Developer]
+
+<img src="./certificate/certificate.svg" alt="Certificate Udacity" width="600" />
 
 ### Project Description
 The application for keeping a diary of feelings when the weather changes.
@@ -43,12 +45,16 @@ npm start
 ```
 
 ### Copyright
-The contents of the repository can be freely used and distributed. 😀
-
 The project is based on the [Udacity repository].  
 The project uses [OpenWeather] Web API.
+
+### License
+© 2020 Weather Journal App is [MIT licensed].
 
 [Udacity.com]: https://www.udcity.com/
 [Udacity repository]: https://github.com/udacity/fend/tree/refresh-2019/
 [NodeJS]: https://nodejs.org/
 [OpenWeather]: https://openweathermap.org/
+[MIT licensed]: https://github.com/GrafSoul/udacity-project-three/blob/master/LICENSE.txt
+
+[Front End Web Developer]: https://confirm.udacity.com/7QM9HD6
